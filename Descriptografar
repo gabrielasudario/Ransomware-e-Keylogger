@@ -1,0 +1,18 @@
+from cryptography.fernet import Fernet
+import os
+
+with open("key.key", "rb") as f:
+    key = f.read()
+
+fernet = Fernet(key)
+
+for file in os.listdir("test_files"):
+    path = f"test_files/{file}"
+
+    with open(path, "rb") as f:
+        data = f.read()
+
+    decrypted = fernet.decrypt(data)
+
+    with open(path, "wb") as f:
+        f.write(decrypted)
